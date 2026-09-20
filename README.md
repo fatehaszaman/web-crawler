@@ -1,5 +1,7 @@
 # Web Crawler — Research Data Collection Infrastructure
 
+[Algorithm guide: pseudocode, time complexity, and memory](docs/ALGORITHM_GUIDE.md).
+
 [![CI](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml/badge.svg)](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml)
 
 ### Java/Python crawl tooling for IEEE ICDCS 2020 website-fingerprinting research
