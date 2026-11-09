@@ -1,5 +1,7 @@
 # Web Crawler — Research Data Collection Infrastructure
 
+> **LLM evaluation sandbox:** this repository contains deliberate errors alongside documented real errors in code, documentation, and SDLC artifacts (tests, CI, READMEs, and change history), used to test whether a model or judge catches them and follows instructions.
+
 [Algorithm guide: pseudocode, time complexity, and memory](docs/ALGORITHM_GUIDE.md).
 
 [![CI](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml/badge.svg)](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml)
