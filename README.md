@@ -4,9 +4,9 @@
 
 [![CI](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml/badge.svg)](https://github.com/fatehaszaman/web-crawler/actions/workflows/ci.yml)
 
-### Java/Python crawl tooling for IEEE ICDCS 2020 website-fingerprinting research
+### Java/Python crawl tooling for website-fingerprinting research
 
-This repository contains the URL-collection tooling I built for a university Network Privacy Lab. It fed the deep-learning website-fingerprinting pipeline whose results were published at IEEE ICDCS 2020. The job of this code is narrow but load-bearing: produce large, clean, domain-scoped URL sets that downstream packet-capture and CNN/LSTM training stages can consume without manual cleanup.
+This repository contains the URL-collection tooling I built for the Network Privacy Lab at Loyola University Chicago in 2023. It supplied URLs to the lab's deep-learning website-fingerprinting research. The job of this code is narrow but load-bearing: produce large, clean, domain-scoped URL sets that downstream packet-capture and CNN/LSTM training stages can consume without manual cleanup.
 
 ## Information Systems & Scalability
 
@@ -23,7 +23,7 @@ This repository contains the URL-collection tooling I built for a university Net
 
 ## Impact
 
-The output of this tooling was the input to the lab's packet-capture and traffic-trace pipeline, which trained CNN/LSTM models published at **IEEE ICDCS 2020**.
+The output of this tooling was the input to the lab's packet-capture and traffic-trace pipeline, which trained CNN/LSTM models for the lab's website-fingerprinting research.
 
 ## How to Run
 
