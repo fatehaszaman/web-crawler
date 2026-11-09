@@ -13,7 +13,7 @@ This repository contains the URL-collection tooling I built for a university Net
 * **Bulk URL acquisition.** `WebCrawler.java` is a BFS crawler that ingests up to a configurable cap (run at 50,000 URLs per invocation) using a `Queue` of frontier URLs plus a `HashSet` of visited URLs to prevent revisits and unbounded growth.
 * **Domain scoping and content filtering.** The crawler enforces a strict `https://www.nytimes.com/` prefix check and a configurable exclusion list (section keywords, topic paths, Wirecutter links) so that downstream training data stays on-distribution and free of low-value sections (interactives, crosswords, opinion tags, etc.).
 * **Deduplication discipline at every stage.** `URLScraper.java`, `UniqueLinks.java`, and `PrintLinksInAlphabeticalOrder.java` all apply `HashSet` deduplication and pattern-based validation (`^https://www\.nytimes\.com/\d{4}/\d{2}/\d{2}/[a-z\-]+\.html$`) before any URL is allowed into the dataset. This is what keeps the eventual trace dataset clean without a separate cleanup pass.
-* **Sampling vs. exhaustive modes.** Two collection strategies are supported: BFS traversal (`WebCrawler.java`) for broad coverage from a seed URL, and homepage random-sampling (`URLScraper.java`, capped at 1,000 unique article URLs per run) for distributional balance. Combining the two is what produced the ~300k-URL corpus used by the lab.
+* **Sampling vs. exhaustive modes.** Two collection strategies are supported: BFS traversal (`WebCrawler.java`) for broad coverage from a seed URL, and homepage random-sampling (`URLScraper.java`, capped at 1,000 unique article URLs per run) for distributional balance. These two strategies are where the lab's collection approach started; the larger lab corpus came from the later version described in "Where this repository fits."
 
 ## SDLC & Engineering Discipline
 
@@ -74,13 +74,17 @@ python Web-Crawler-Trial-1.py
 
 Java (`java.net.URL`, `java.util.regex`, BFS over `Queue`/`HashSet`), Python (`requests`, `BeautifulSoup`, `lxml`), regex-based HTML parsing.
 
+## Where this repository fits
+
+This is the early version of the URL-collection tooling I started with for Dr. Chan-Tin's network-privacy lab, kept here to show how the design began: a BFS crawler, a homepage sampler, and URL validation and deduplication, run single-threaded with a 50,000-URL cap per run. The full lab version grew from this starting point into a multithreaded Java crawler that processed 300,000+ URLs per site, with sorting and cleaning in Java, Python and terminal tools, across 1,000+ Docker runs. That version was not published here.
+
 ## Roadmap / Future Hardening
 
-The version in this repo is the research artifact as-shipped — single-process, single-threaded, with `e.printStackTrace()` as the error path. The natural next step toward a production-grade ingestion service, and the direction I'd take it next, is:
+The public code in this repo is single-process and single-threaded, with `e.printStackTrace()` as the error path. Next steps for hardening this public version into a production-grade ingestion service:
 
 * Concurrent fetching via a thread pool or an async client (Java `HttpClient` with `CompletableFuture`, or Python `asyncio` + `aiohttp`) to saturate I/O.
 * A retry-with-exponential-backoff wrapper around fetch, distinguishing rate-limit (429), transient (5xx, timeouts), and permanent (404) failures.
 * Structured persistence (Postgres or SQLite) replacing stdout/text-file handoff between stages, with a `(url, fetched_at, status, content_hash)` schema for resumability.
 * A containerized run target (Dockerfile) plus a CI workflow that runs unit tests on the URL filter and dedup logic to prevent regressions on the parser.
 
-These are intentionally not claimed as present in the current code — they are the IS-SDLC roadmap for hardening this research tooling into infrastructure.
+These are not claimed as present in the public code in this repository — they are the IS-SDLC roadmap for hardening this research tooling into infrastructure.
