@@ -13,7 +13,7 @@ This repository contains the URL-collection tooling I built for a university Net
 * **Bulk URL acquisition.** `WebCrawler.java` is a BFS crawler that ingests up to a configurable cap (run at 50,000 URLs per invocation) using a `Queue` of frontier URLs plus a `HashSet` of visited URLs to prevent revisits and unbounded growth.
 * **Domain scoping and content filtering.** The crawler enforces a strict `https://www.nytimes.com/` prefix check and a configurable exclusion list (section keywords, topic paths, Wirecutter links) so that downstream training data stays on-distribution and free of low-value sections (interactives, crosswords, opinion tags, etc.).
 * **Deduplication discipline at every stage.** `URLScraper.java`, `UniqueLinks.java`, and `PrintLinksInAlphabeticalOrder.java` all apply `HashSet` deduplication and pattern-based validation (`^https://www\.nytimes\.com/\d{4}/\d{2}/\d{2}/[a-z\-]+\.html$`) before any URL is allowed into the dataset. This is what keeps the eventual trace dataset clean without a separate cleanup pass.
-* **Sampling vs. exhaustive modes.** Two collection strategies are supported: BFS traversal (`WebCrawler.java`) for broad coverage from a seed URL, and homepage random-sampling (`URLScraper.java`, capped at 1,000 unique article URLs per run) for distributional balance. These two strategies are where the lab's collection approach started; the larger lab corpus came from the later version described in "Where this repository fits."
+* **Sampling vs. exhaustive modes.** Two collection strategies are supported: BFS traversal (`WebCrawler.java`) for broad coverage from a seed URL, and homepage random-sampling (`URLScraper.java`, capped at 1,000 unique article URLs per run) for distributional balance. These two strategies are where the lab's collection approach started; the larger lab corpus came from the later version described in "Lab version vs. this repository."
 
 ## SDLC & Engineering Discipline
 
@@ -74,9 +74,13 @@ python Web-Crawler-Trial-1.py
 
 Java (`java.net.URL`, `java.util.regex`, BFS over `Queue`/`HashSet`), Python (`requests`, `BeautifulSoup`, `lxml`), regex-based HTML parsing.
 
-## Where this repository fits
+## Lab version vs. this repository
 
-This is the early version of the URL-collection tooling I started with for Dr. Chan-Tin's network-privacy lab, kept here to show how the design began: a BFS crawler, a homepage sampler, and URL validation and deduplication, run single-threaded with a 50,000-URL cap per run. The full lab version grew from this starting point into a multithreaded Java crawler that processed 300,000+ URLs per site, with sorting and cleaning in Java, Python and terminal tools, across 1,000+ Docker runs. That version was not published here.
+This repository holds the core collection and cleaning tools: the BFS crawler (`WebCrawler.java`), the homepage sampler (`URLScraper.java`), and URL validation and deduplication (`UniqueLinks.java`, `PrintLinksInAlphabeticalOrder.java`).
+
+The version I ran for Dr. Eric Chan-Tin's network-privacy lab at Loyola University Chicago (Jan to Dec 2023) was multithreaded across Java, Python and Bash, with retry and backoff, automated cleaning and validation, and 1,000+ reproducible Docker experiment runs. It collected 300,000+ URLs per site with about 60% higher throughput and about 45% fewer failed retries than the single-threaded baseline.
+
+The lab version is not published here. The 50,000-URL cap per run applies to this public version.
 
 ## Roadmap / Future Hardening
 
