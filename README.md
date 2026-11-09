@@ -23,7 +23,7 @@ This repository contains the URL-collection tooling I built for a university Net
 
 ## Impact
 
-The output of this tooling was the input to the lab's packet-capture and traffic-trace pipeline, which trained CNN/LSTM models published at **IEEE ICDCS 2020**. Reworking the crawl logic produced roughly a 60% improvement in output volume, validity, and run time over the prior approach the lab had been using.
+The output of this tooling was the input to the lab's packet-capture and traffic-trace pipeline, which trained CNN/LSTM models published at **IEEE ICDCS 2020**.
 
 ## How to Run
 
@@ -76,11 +76,11 @@ Java (`java.net.URL`, `java.util.regex`, BFS over `Queue`/`HashSet`), Python (`r
 
 ## Lab version vs. this repository
 
-This repository holds the core collection and cleaning tools: the BFS crawler (`WebCrawler.java`), the homepage sampler (`URLScraper.java`), and URL validation and deduplication (`UniqueLinks.java`, `PrintLinksInAlphabeticalOrder.java`).
+This repository documents an early, single-threaded iteration of the URL-collection tooling developed for Dr. Eric Chan-Tin's network-privacy lab at Loyola University Chicago. It contains the core collection and cleaning tools: the BFS crawler (`WebCrawler.java`), the homepage sampler (`URLScraper.java`), and URL validation and deduplication (`UniqueLinks.java`, `PrintLinksInAlphabeticalOrder.java`). It is retained as a record of the original design and the limitations it encountered, including repeated request blocking by the New York Times site, which informed the design of the final version.
 
-The version I ran for Dr. Eric Chan-Tin's network-privacy lab at Loyola University Chicago (Jan to Dec 2023) was multithreaded across Java, Python and Bash, with retry and backoff, automated cleaning and validation, and 1,000+ reproducible Docker experiment runs. It collected 300,000+ URLs per site with about 60% higher throughput and about 45% fewer failed retries than the single-threaded baseline.
+The final version, used in the lab from January to December 2023, is a more complex system with lower latency, higher throughput, and more accurate collection. It was multithreaded across Java, Python and Bash, with retry and backoff, automated cleaning and validation, and 1,000+ reproducible Docker experiment runs. It collected 300,000+ URLs per site with approximately 60% higher throughput and approximately 45% fewer failed retries than the single-threaded baseline.
 
-The lab version is not published here. The 50,000-URL cap per run applies to this public version.
+The final version is not published in this repository. The 50,000-URL cap per run applies only to the public version.
 
 ## Roadmap / Future Hardening
 
